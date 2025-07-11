@@ -19,7 +19,7 @@ export function MyRoutes() {
   const {mostrarEmpresa} = useEmpresaStore()
   const { data:datausuarios, isLoading, error } = useQuery({
     queryKey: ["mostrar usuarios"],
-    queryFn: mostrarUsuarios,
+    queryFn: mostrarUsuarios,   
   });
   const {data:dataempresa}=useQuery({queryKey:["mostrar empresa"],queryFn:()=>mostrarEmpresa({idusaurio:idusuario}),enabled:!!datausuarios})
 

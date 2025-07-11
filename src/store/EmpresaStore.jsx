@@ -1,16 +1,16 @@
 import { create } from "zustand";
-import { ContarUsuariosXempresa, MostrarEmpresa, supabase } from "../index";
+import { contarusuariosXempresa, MostrarEmpresa, supabase } from "../index";
 
 export const useEmpresaStore = create((set, get) => ({
   contadorusuarios: 0,
-  dataempresa: [],
+  dataempresa: {},
   mostrarEmpresa: async (p) => {
     const response = await MostrarEmpresa(p);
-    set({ dataempresa: response.empresa });
-    return response.empresa;
+    set({ dataempresa: response});
+    return response;
   },
   contarusuariosXempresa: async (p) => {
-    const response = await ContarUsuariosXempresa(p);
+    const response = await contarusuariosXempresa(p);
     set({ contadorusuarios: response });
     return response;
 

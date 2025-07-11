@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { v } from "../../styles/variables";
 import { CardDatosEmpresa } from "../moleculas/CardDatosEmpresa";
-import { useEmpresaStore } from "../../store/EmpresaStore";
+import { useEmpresaStore,v } from "../../index";
 export function BannerEmpresa() {
   const {dataempresa,contadorusuarios} = useEmpresaStore();
   return (

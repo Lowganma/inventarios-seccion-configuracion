@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Btnsave, v, useAuthStore, InputText, FooterLogin, RegistrarAdmin } from "../../index";
 import { Device } from "../../styles/breackpoints";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import carrito from "../../assets/carrito.svg";
@@ -9,8 +9,10 @@ import logo from "../../assets/inventarioslogo.png";
 import { MdOutlineInfo } from "react-icons/md";
 import { ThemeContext } from "../../App";
 export function LoginTemplate() {
-  const { setTheme } = useContext(ThemeContext);
-  setTheme("light");
+const { setTheme } = useContext(ThemeContext);
+  useEffect(() => {
+    setTheme("light");
+  }, [setTheme]);
   const { signInWithEmail } = useAuthStore();
   const [state, setState] = useState(false);
   const [stateInicio, setStateInicio] = useState(false);

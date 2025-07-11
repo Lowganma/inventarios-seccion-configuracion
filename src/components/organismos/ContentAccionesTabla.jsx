@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { AccionTabla, v } from "../../index";
-export function ContentAccionesTabla({ funcionEditar, funcionEliminar }) {
+export function ContentAccionesTabla({funcionEditar,funcionEliminar}) {
   return (
     <Container>
       <AccionTabla

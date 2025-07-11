@@ -11,17 +11,18 @@ import { ContentAccionesTabla, Paginacion, useMarcaStore, v } from "../../../ind
 import Swal from "sweetalert2";
 import { FaArrowsAltV } from "react-icons/fa";
 import { useState } from "react";
+
 export function TablaMarca({
   data,
   SetopenRegistro,
   setdataSelect,
   setAccion,
 }) {
-  const [pagina, setPagina] = useState(1);
   const { eliminarMarca } = useMarcaStore();
+  const [pagina, setPagina] = useState(1);
 
-  const editar = (data) => {
-    if (data.descripcion === "Generica") {
+  const editar = (row) => {
+    if (row.descripcion === "Generica") {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -30,11 +31,12 @@ export function TablaMarca({
       return;
     }
     SetopenRegistro(true);
-    setdataSelect(data);
+    setdataSelect(row);
     setAccion("Editar");
   };
-  const eliminar = (p) => {
-    if (p.descripcion === "Generica") {
+
+  const eliminar = (row) => {
+    if (row.descripcion === "Generica") {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -49,35 +51,38 @@ export function TablaMarca({
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar",
+      confirmButtonText: "Sí, eliminar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await eliminarMarca({ id: p.id });
+        await eliminarMarca({ id: row.id });
       }
     });
   };
+
   const columns = [
     {
       accessorKey: "descripcion",
-      header: "Descripcion",
-      cell: (info) =><td data-title="Descripcion" className="ContentCell">
-        <span >{info.getValue()}</span>
-      </td> 
+      header: "Descripción",
+      cell: (info) => (
+        <span data-title="Descripción" className="ContentCell">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       accessorKey: "acciones",
       header: "",
-      enableSorting:false,
+      enableSorting: false,
       cell: (info) => (
-        <td className="ContentCell">
-          <ContentAccionesTabla
-            funcionEditar={() => editar(info.row.original)}
-            funcionEliminar={() => eliminar(info.row.original)}
-          />
-        </td>
+        <ContentAccionesTabla
+          className="ContentCell"
+          funcionEditar={() => editar(info.row.original)}
+          funcionEliminar={() => eliminar(info.row.original)}
+        />
       ),
     },
   ];
+
   const table = useReactTable({
     data,
     columns,
@@ -86,35 +91,37 @@ export function TablaMarca({
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
   return (
     <Container>
       <table className="responsive-table">
         <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
+          {table.getHeaderGroups().map((hg) => (
+            <tr key={hg.id}>
+              {hg.headers.map((header) => (
                 <th key={header.id}>
                   {header.column.columnDef.header}
                   {header.column.getCanSort() && (
-                    <span style={{cursor:"pointer"}} onClick={header.column.getToggleSortingHandler()}>
+                    <span
+                      style={{ cursor: "pointer" }}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
                       <FaArrowsAltV />
                     </span>
                   )}
-                  {
-                    {
-                      asc:" 🔼",
-                      desc:" 🔽"
-                    }[header.column.getIsSorted()]
-                  }
+                  {{
+                    asc: " 🔼",
+                    desc: " 🔽",
+                  }[header.column.getIsSorted()]}
                 </th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((item) => (
-            <tr key={item.id}>
-              {item.getVisibleCells().map((cell) => (
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
@@ -123,13 +130,17 @@ export function TablaMarca({
           ))}
         </tbody>
       </table>
-      <Paginacion table={table} irinicio = {()=>table.setPageIndex(0)}
-      pagina = {table.getState().pagination.pageIndex+1}
-      setPagina={setPagina}
-      maximo={table.getPageCount()}/>
+      <Paginacion
+        table={table}
+        irinicio={() => table.setPageIndex(0)}
+        pagina={table.getState().pagination.pageIndex + 1}
+        setPagina={setPagina}
+        maximo={table.getPageCount()}
+      />
     </Container>
   );
 }
+
 const Container = styled.div`
   position: relative;
 

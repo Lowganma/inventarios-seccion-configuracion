@@ -9,14 +9,14 @@ export function ConfiguracionTemplate() {
         {DataModulosConfiguracion.map((item, index) => {
           return (
             <Link to={item.link} className={item.state?"card": "card false"} key={index}>
-              <div class="card-content">
-                <div class="card-image">
+              <div className="card-content">
+                <div className="card-image">
                   <img src={item.icono} />
                 </div>
-                <div class="card-info-wrapper">
-                  <div class="card-info">
-                    <i class="fa-duotone fa-unicorn"></i>
-                    <div class="card-info-title">
+                <div className="card-info-wrapper">
+                  <div className="card-info">
+                    <i className="fa-duotone fa-unicorn"></i>
+                    <div className="card-info-title">
                       <h3>{item.title}</h3>
                       <h4>{item.subtitle}</h4>
                     </div>
